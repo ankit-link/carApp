@@ -1,26 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Cars from './components/car';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
+
+      constructor(props) {
+        super(props);
+        this.state = {contacts: []};
+      }
+
+
+      
+
+      componentDidMount() {
+        fetch('http://localhost:8081/cars')
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ contacts: data })
+          console.log(data)
+        })
+        .catch(console.log)
+      }
+
+      render() {
+        return (
+          <Cars cars={this.state.contacts} filter={this.setFilter}/>
+  
+        );
+      }
+    }
 
 export default App;
